@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 from database.models import async_main
 import database.queries as queries
@@ -50,3 +52,16 @@ async def get_all_posts():
         return None
 
     return list(posts)
+
+
+class SignInForm(BaseModel):
+    login: str
+    password: str
+
+
+@app.post('/signin')
+def signin(request: SignInForm):
+    print(request.login)
+    print(request.password)
+
+    return True
