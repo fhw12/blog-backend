@@ -60,8 +60,16 @@ class SignInForm(BaseModel):
 
 
 @app.post('/signin')
-def signin(request: SignInForm):
-    print(request.login)
-    print(request.password)
+async def signin(request: SignInForm):
+    login = request.login
+    password = request.password
 
-    return True
+    user = await queries.get_user_by_username(username=login)
+
+    if not user:
+        return {'message': 'Error login'}
+
+    if user.password != password:
+        return {'message': 'Error password'}
+
+    return {'message': 'Successfully'}
