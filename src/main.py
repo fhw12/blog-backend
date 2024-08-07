@@ -3,11 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
+from session_helper import SessionHelper
 from database.models import async_main
 import database.queries as queries
 
 
 app = FastAPI()
+
+sessionHelper = SessionHelper()
 
 origins = [
     '*',
@@ -72,4 +75,5 @@ async def signin(request: SignInForm):
     if user.password != password:
         return {'message': 'Error password'}
 
-    return {'message': 'Successfully'}
+    token = sessionHelper.set(username=login)
+    return {'message': 'Successfully', 'token': token}
