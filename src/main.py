@@ -77,3 +77,13 @@ async def signin(request: SignInForm):
 
     token = sessionHelper.set(username=login)
     return {'message': 'Successfully', 'token': token}
+
+
+class SignUpForm(BaseModel):
+    login: str
+    password: str
+
+
+@app.post('/signup')
+async def signup(request: SignUpForm):
+    return {'status': 'not implemented'}
