@@ -6,7 +6,7 @@ class SessionHelper:
         self.sessions = {}
 
     def set(self, username):
-        token = token_hex(64)
+        token = token_hex(32)
         self.sessions[token] = {
             'username': username,
             'expire': time() + (60 * 60 * 24),
