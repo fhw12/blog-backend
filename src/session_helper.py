@@ -17,6 +17,6 @@ class SessionHelper:
         if token in self.sessions:
             if self.sessions[token]['expire'] <= time():
                 del self.sessions[token]
-                return False
+                return None
             return self.sessions[token]['username']
-        return False
+        return None
