@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+from typing import Union
 
 from session_helper import SessionHelper
 from database.models import async_main
@@ -87,3 +88,17 @@ class SignUpForm(BaseModel):
 @app.post('/signup')
 async def signup(request: SignUpForm):
     return {'status': 'not implemented'}
+
+
+class tokenRequest(BaseModel):
+    token: Union[str, None]
+
+
+@app.post('/get-current-user')
+async def get_current_user(request: tokenRequest):
+    username = sessionHelper.get(request.token)
+
+    if username:
+        return {'username': username}
+    else:
+        return None
