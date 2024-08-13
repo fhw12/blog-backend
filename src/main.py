@@ -97,8 +97,12 @@ class tokenRequest(BaseModel):
 @app.post('/get-current-user')
 async def get_current_user(request: tokenRequest):
     username = sessionHelper.get(request.token)
+    user = await queries.get_user_by_username(username=username)
 
     if username:
-        return {'username': username}
+        return {
+            'username': user.username,
+            'role': user.role,
+        }
     else:
         return None
